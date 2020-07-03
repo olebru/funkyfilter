@@ -11,7 +11,7 @@ function Get-AllOrderedElementConfigurations {
     $elements = $elements | Select-Object -Unique | Sort-Object
     $maxbinaryval = [System.Math]::Pow(2, ($elements | Measure-Object).Count) 
 
-    foreach ($binVal in 0..($maxbinaryval )) {
+    foreach ($binVal in 0..($maxbinaryval)) {
         $tempResult = ""
         $bitPos = [System.Collections.Generic.list[string]]::New()
         $binaryString = [Convert]::ToString($binVal, 2)
@@ -26,15 +26,10 @@ function Get-AllOrderedElementConfigurations {
             }
         }
         if (!$result.Contains($tempResult)) {
-            $result.Add($tempResult)
-        
+            $result.Add($tempResult)   
+        }else {
+            write-host "Double..."
         }
     }
-
     $result | Sort-Object
-
 }
-
-
-
-
