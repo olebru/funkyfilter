@@ -1,4 +1,4 @@
-function Get-AllOrderedElementConfigurations {
+function Get-AllOrderedElementPermutations {
 
     [CmdletBinding()]
     param (
@@ -25,11 +25,11 @@ function Get-AllOrderedElementConfigurations {
                 $tempResult += $elements[$i]
             }
         }
-        if (!$result.Contains($tempResult)) {
-            $result.Add($tempResult)   
-        }else {
-            write-host "Double..."
+        if($tempResult.Length -gt 0){
+            $result.Add($tempResult) 
         }
+          
+    
     }
     $result | Sort-Object
 }
