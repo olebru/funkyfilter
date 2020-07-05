@@ -16,21 +16,28 @@ function Get-ExchangeRecipientFilterForElemets {
         $adattribute,
         [Parameter()]
         [bool]
-        $linefeedinfilter = $false
+        $prettyformat = $false
 
 
     )
-
+    $tab = [string]::Empty 
     $linefeed = [string]::Empty 
-    if($linefeedinfilter){
+    $linefeedandtab = [string]::Empty
+    $linefeedanddoubletab = [string]::Empty
+    if($prettyformat){
         $linefeed = [System.Environment]::NewLine
+        $tab = [char]9
+        $linefeedandtab = $linefeed + $tab
+        $linefeedanddoubletab = $linefeed + $tab + $tab
     }
-    $filterstart = "($linefeed(RecipientType -eq 'UserMailbox') -and $linefeed ($linefeed "
-    $filterend = ")$linefeed )"
+    
+
+    $filterstart = "($linefeedandtab(RecipientType -eq 'UserMailbox') $linefeedandtab -and $linefeedandtab($linefeedanddoubletab"
+    $filterend = "$linefeedandtab)$linefeed)"
     $result = $filterstart
 
     $filterelementstart = "($adattribute -like '"
-    $filterelementseperator = "$linefeed -or "
+    $filterelementseperator = " -or $linefeedanddoubletab"
     $filterelementend = "')"
 
     $includeElements = $includeElements | Select-Object -Unique | Sort-Object
@@ -54,6 +61,3 @@ function Get-ExchangeRecipientFilterForElemets {
     $result
 
 }
-
-
-Get-ExchangeRecipientFilterForElemets -includeElements @("ADM","EDU") -allElements  @("ADM","EDU","KRAFT") -prefix "KVAM" -adattribute "CustomAttribute15" -linefeedinfilter $true
